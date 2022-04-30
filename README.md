@@ -6,6 +6,8 @@ A simple bearer access and refresh token api
 Copy the connection strings, token settings into your main startup project (usually the main app's api project). Update the keys and issuer/audience. Really best to keep
 the key in the environment secrets.
 
+*In the future will plan on reducing the amount of configuration required to setup...
+
 ###### Step 1
 
         {
