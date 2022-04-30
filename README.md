@@ -43,6 +43,10 @@ when you right click the project itself)
 ###### Step 3
 At some point you want to build the identity databases. These use microsoft identity as defaults (user, etc), it also includes a token table for tracking
 current tokens and refresh times. Using entityframeworkcore.tools package allows for code first migrations, seeding, db creationg and updates.
+Included is the basic migrations in the /migrations folder.
+Using PackageManager Console type in:
+        Update-Database -Context IdentityContext -StartupProject NameOfStartUpProject
+(Be sure to have installed the entityframeworkcore.design nuget package to your startup project)
 
 #### Tips
 You can use the user model from SimpleIdentity or you can grab the identity user's id, store it in your own user's table as an 'externalId' or 'identityId'. This
