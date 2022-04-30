@@ -1,5 +1,6 @@
 # SimpleIdentity
 A simple bearer access and refresh token api
+(Note: This readme is a work in progress itself)
 
 ## Configuring for your solution
 Copy the connection strings, token settings into your main startup project (usually the main app's api project). Update the keys and issuer/audience. Really best to keep
