@@ -31,6 +31,32 @@ the key in the environment secrets.
           "AllowedOrigins": "*",
           "AllowedHosts": "*"
 
+
+###### Add to program.cs or startup.cs
+
+           services.AddAuthentication(opts =>
+                    {
+                        opts.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                        opts.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                        opts.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    }).AddJwtBearer(cfg =>
+                    {
+                        cfg.RequireHttpsMetadata = false;
+                        cfg.SaveToken = true;
+                        cfg.TokenValidationParameters = new TokenValidationParameters()
+                        {
+                            ValidIssuer = AppConfiguration.GetSection("TokenSettings:ValidIssuer").Value,
+                            ValidAudience = AppConfiguration.GetSection("TokenSettings:ValidAudience").Value,
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(AppConfiguration.GetSection("TokenSettings:SecurityKey").Value)),
+                            ClockSkew = TimeSpan.Zero,
+
+                            // security switches
+                            RequireExpirationTime = true,
+                            ValidateIssuer = true,
+                            ValidateIssuerSigningKey = true,
+                            ValidateAudience = true
+                        };
+                    });
 ###### Step 2
 Make sure to include this project as startup.
 1. In VS right click on the solution.
@@ -46,8 +72,11 @@ when you right click the project itself)
 At some point you want to build the identity databases. These use microsoft identity as defaults (user, etc), it also includes a token table for tracking
 current tokens and refresh times. Using entityframeworkcore.tools package allows for code first migrations, seeding, db creationg and updates.
 Included is the basic migrations in the /migrations folder.
+
 Using PackageManager Console type in:
+
         Update-Database -Context IdentityContext -StartupProject NameOfStartUpProject
+        
 (Be sure to have installed the entityframeworkcore.design nuget package to your startup project)
 
 #### Tips
